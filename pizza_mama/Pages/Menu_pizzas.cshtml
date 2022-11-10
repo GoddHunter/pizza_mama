@@ -2,3 +2,26 @@
 @model pizza_mama.Pages.Menu_pizzasModel
 @{
 }
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Menu des pizzas</title>
+</head>
+<body>
+
+    <h1>Menu des pizzas</h1>
+
+    <a asp-page="Index">Retour à l'accueil</a>
+
+    <ul>
+        @foreach (var pizza in Model.Pizzas)
+       {
+           <li>@pizza.name - @pizza.price £</li>
+       }
+    </ul>
+
+
+</body>
+</html>
+
