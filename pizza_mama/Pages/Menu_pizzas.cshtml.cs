@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using pizza_mama.Data;
 using pizza_mama.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace pizza_mama.Pages
@@ -21,6 +22,7 @@ namespace pizza_mama.Pages
         public async Task OnGetAsync()
         {
             Pizzas = await _context.Pizzas.ToListAsync();
+            Pizzas = Pizzas.OrderBy(p => p.price).ToList();
         }
     }
 }
