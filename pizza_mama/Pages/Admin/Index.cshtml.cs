@@ -7,16 +7,24 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using System;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace pizza_mama.Pages.Admin
 {
     public class IndexModel : PageModel
     {
         IConfiguration configuration;
-        public bool DisplayInvalidAccountMessage { get; set; }
-        public IndexModel(IConfiguration configuration)
+        public bool DisplayInvalidAccountMessage = false;
+        public bool IsDevelopmentMode = false;
+        public IndexModel(IConfiguration configuration, IWebHostEnvironment env)
         {
             this.configuration = configuration;
+
+            if (env.IsDevelopment())
+            {
+                IsDevelopmentMode = true;
+            }
         }
         public IActionResult OnGet()
         {
@@ -37,10 +45,8 @@ namespace pizza_mama.Pages.Admin
 
             if ((username == adminLogin) && (password == adminPassword))
             {
-                DisplayInvalidAccountMessage = false;
-                var claims = new List<Claim>
-                {
-                new Claim(ClaimTypes.Name, username)
+                var claims = new List<Claim>{
+                    new Claim(ClaimTypes.Name, username)
                 };
                 var claimsIdentity = new ClaimsIdentity(claims, "Login");
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));

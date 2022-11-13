@@ -33,9 +33,14 @@ namespace pizza_mama
                 options.LoginPath = "/Admin";
             });
 
-            services.AddDbContext<DataContext>(options => 
-                   options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            /*services.AddDbContext<DataContext>(options => 
+                   options.UseSqlite(Configuration.GetConnectionString("DefaultConnectionSqlite")));*/
+
+            services.AddDbContext<DataContext>(options =>
+                   options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddRazorPages();
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,6 +73,7 @@ namespace pizza_mama
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
         }
     }
